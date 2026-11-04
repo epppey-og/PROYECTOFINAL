@@ -11,6 +11,10 @@
       perspective: 1000px; 
       transition: transform 0.1s ease; 
       cursor: grab;
+      
+      /* Evitamos que el navegador intente seleccionar la imagen al arrastrar */
+      user-select: none;
+      -webkit-user-drag: none;
     }
     .pegatina-brillante:active {
       cursor: grabbing;
@@ -24,7 +28,7 @@
     <br><br>
     
     <!-- REEMPLAZO DEL TEXTO PRE POR LA IMAGEN DE GRAFFITI URBANO -->
-    <img src="https://adultsskatetoo.com/cdn/shop/files/Sticker_PDP_Images_100.webp?v=1774670404&width=1214" width="450" border="0" class="pegatina-brillante">
+    <img src="https://adultsskatetoo.com" width="450" border="0" class="pegatina-brillante">
     
     <br><br>
     <font face="Courier New, monospace" size="4" color="#00ffcc">
@@ -110,7 +114,7 @@
                       Ubicado en el extremo norte del río, este spot es la joya de la corona para los amantes de las transiciones rápidas y los bowls profundos. Cuenta con una serie de cuartos de madera reforzada, un miniramp con un coping metálico perfecto para ensayar trucos de lip, y varias cajas de concreto pulido ideales para el calentamiento. 
                     </p>
                     <p>
-                      <b>El ambiente:</b> Las sesiones cobran vida real a partir de las 5:00 PM, cuando el sol comienza a caer directamente sobre el río, regalando las mejores visuales y un clima fresco para patinar sin parar. Los locales son amigables pero el ritmo es frenético; asegúrate de tomar tu turno en la línea con decisión para evitar colisiones en las curvas.
+                      <b>El ambiente:</b> Las sesiones cobran vida real a partir de las 5:00 PM, cuando el sol comienza a caer directamente sobre el río, regalando las mejores visuales and un clima fresco para patinar sin parar. Los locales son amigables pero el ritmo es frenético; asegúrate de tomar tu turno en la línea con decisión para evitar colisiones en las curvas.
                     </p>
                   </font>
                 </td>
@@ -143,6 +147,14 @@
                 <td valign="top">
                   <font face="Arial Black, sans-serif" size="4" color="#00ffcc">OLD RAIL YARD (CONCRETO CRUDO Y CREATIVIDAD BRUTAL)</font>
                   <hr color="#00ffcc" size="1">
+                  <font face="Arial, sans-serif" size="3">
+                    <p>
+                      Ubicado en la zona industrial abandonada de las afueras, este sitio es pura resistencia urbana. El asfalto es rugoso, hay escombros alrededor y las transiciones son improvisadas con placas de metal oxidadas y bordillos recuperados de obras. No es un lugar cómodo, pero es el favorito de los realizadores de vídeo underground.
+                    </p>
+                    <p>
+                      <b>La recompensa:</b> Aquí las reglas no existen. Puedes pintar tus propios obstáculos, clavar elementos temporales y tirar líneas sin que nadie te moleste en horas. Es perfecto para quienes buscan plasmar un estilo callejero crudo y real en sus tomas de video.
+                    </p>
+                  </font>
                 </td>
               </tr>
             </table>
@@ -159,32 +171,5 @@
     let xInicial = 0;
     let yInicial = 0;
 
-    pegatina.addEventListener('mousedown', (e) => {
-      arrastrando = true;
-      xInicial = e.clientX;
-      yInicial = e.clientY;
-      pegatina.style.transition = 'none';
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!arrastrando) return;
-      const deltaX = e.clientX - xInicial;
-      const deltaY = e.clientY - yInicial;
-
-      // Dividimos entre 12 para un control súper suave y sutil de los brillos
-      const rotacionY = Math.max(Math.min(deltaX / 12, 18), -18);
-      const rotacionX = Math.max(Math.min(-deltaY / 12, 18), -18);
-
-      pegatina.style.transform = `rotateX(${rotacionX}deg) rotateY(${rotacionY}deg)`;
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (arrastrando) {
-        arrastrando = false;
-        pegatina.style.transition = 'transform 0.5s ease';
-        pegatina.style.transform = 'rotateX(0deg) rotateY(0deg)';
-      }
-    });
-  </script>
-</body>
-</html>
+    // Cancelamos el arrastre nativo de imágenes en el navegador para evitar el "fantasma"
+    pegatina.addEventListener('dragstart', (e) => {
