@@ -152,26 +152,31 @@
     </table>
   </main>
 
-  <script>
-    // Script dinámico para controlar el sutil giro 3D holográfico de la pegatina
+   <script>
     const pegatina = document.querySelector('.pegatina-brillante');
     let arrastrando = false;
     let xInicial = 0;
     let yInicial = 0;
 
-    pegatina.addEventListener('mousedown', (e) => {
-      arrastrando = true;
-      xInicial = e.clientX;
-      yInicial = e.clientY;
-      pegatina.style.transition = 'none';
-    });
+    // Cancela el arrastre nativo para que no salga el fantasma transparente
+    if (pegatina) {
+      pegatina.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+      });
+
+      pegatina.addEventListener('mousedown', (e) => {
+        arrastrando = true;
+        xInicial = e.clientX;
+        yInicial = e.clientY;
+        pegatina.style.transition = 'none';
+      });
+    }
 
     window.addEventListener('mousemove', (e) => {
-      if (!arrastrando) return;
+      if (!arrastrando || !pegatina) return;
       const deltaX = e.clientX - xInicial;
       const deltaY = e.clientY - yInicial;
 
-      // Dividimos entre 12 para un control súper suave y sutil de los brillos
       const rotacionY = Math.max(Math.min(deltaX / 12, 18), -18);
       const rotacionX = Math.max(Math.min(-deltaY / 12, 18), -18);
 
@@ -179,12 +184,15 @@
     });
 
     window.addEventListener('mouseup', () => {
-      if (arrastrando) {
+      if (arrastrando && pegatina) {
         arrastrando = false;
         pegatina.style.transition = 'transform 0.5s ease';
         pegatina.style.transform = 'rotateX(0deg) rotateY(0deg)';
       }
     });
   </script>
+</body>
+</html>
+
 </body>
 </html>
