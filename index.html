@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KICKFLIP SKATE CO. // STREET CREW</title>
+  <style>
+    /* Estilos para el efecto 3D de la pegatina brillante */
+    .pegatina-brillante {
+      transform-style: preserve-3d;
+      perspective: 1000px; 
+      transition: transform 0.1s ease; 
+      cursor: grab;
+    }
+    .pegatina-brillante:active {
+      cursor: grabbing;
+    }
+  </style>
 </head>
 <body bgcolor="#080808" text="#e0e0e0" link="#00ffcc" vlink="#ff007f" alink="#ffff00">
 
@@ -12,7 +24,7 @@
     <br><br>
     
     <!-- REEMPLAZO DEL TEXTO PRE POR LA IMAGEN DE GRAFFITI URBANO -->
-    <img src="https://adultsskatetoo.com/cdn/shop/files/Sticker_PDP_Images_100.webp?v=1774670404&width=1214" width="450" border="0">
+    <img src="https://adultsskatetoo.com/cdn/shop/files/Sticker_PDP_Images_100.webp?v=1774670404&width=1214" width="450" border="0" class="pegatina-brillante">
     
     <br><br>
     <font face="Courier New, monospace" size="4" color="#00ffcc">
@@ -131,32 +143,48 @@
                 <td valign="top">
                   <font face="Arial Black, sans-serif" size="4" color="#00ffcc">OLD RAIL YARD (CONCRETO CRUDO Y CREATIVIDAD BRUTAL)</font>
                   <hr color="#00ffcc" size="1">
-                  <font face="Arial, sans-serif" size="3">
-                    <p>
-                      Una vieja estación de trenes abandonada que la misma comunidad de patinadores ha ido modificando al estilo DIY (Do It Yourself). Aquí no vas a encontrar superficies perfectas; el concreto es áspero, hay grietas que exigen ruedas grandes o mucha velocidad, y los obstáculos son rústicos, construidos con escombros, tuberías recicladas y cemento fresco aplicado a mano.
-                    </p>
-                    <p>
-                      <b>La esencia:</b> Este lugar tiene carácter de sobra. Es el sitio idóneo para quienes buscan líneas creativas, wallrides en paredes de ladrillo viejo y transfers imposibles. No es apto para miedosos: una caída aquí suele costar un buen raspón, pero planchar un truco sobre este terreno se siente el doble de gratificante.
-                    </p>
-                  </font>
                 </td>
               </tr>
             </table>
           </section>
+        </td>
+      </tr>
+    </table>
+  </main>
 
-          <br><br><br><br><br>
+  <script>
+    // Script dinámico para controlar el sutil giro 3D holográfico de la pegatina
+    const pegatina = document.querySelector('.pegatina-brillante');
+    let arrastrando = false;
+    let xInicial = 0;
+    let yInicial = 0;
 
-          <!-- ================= SECCIÓN 3: EVENTOS (EXTENSA) ================= -->
-          <section id="events">
-            <font face="Impact, Arial Black, sans-serif" size="6" color="#ffff00">
-              /// CALENDARIO DE SESIONES UNDERGROUND
-            </font>
-            <br><br>
-            <font face="Arial, sans-serif" size="3">
-              <p>
-                No organizamos torneos comerciales con marcas de refrescos patrocinando las vallas. Nuestras reuniones son llamadas directas a través de canales internos para activar a la banda, compartir trucos, grabar videopartes y mantener la unión de la comunidad. Trae tu tabla, cera para los bordillos y buena actitud.
-              </p>
-            </font>
-            <br>
+    pegatina.addEventListener('mousedown', (e) => {
+      arrastrando = true;
+      xInicial = e.clientX;
+      yInicial = e.clientY;
+      pegatina.style.transition = 'none';
+    });
 
-            <blockquote>
+    window.addEventListener('mousemove', (e) => {
+      if (!arrastrando) return;
+      const deltaX = e.clientX - xInicial;
+      const deltaY = e.clientY - yInicial;
+
+      // Dividimos entre 12 para un control súper suave y sutil de los brillos
+      const rotacionY = Math.max(Math.min(deltaX / 12, 18), -18);
+      const rotacionX = Math.max(Math.min(-deltaY / 12, 18), -18);
+
+      pegatina.style.transform = `rotateX(${rotacionX}deg) rotateY(${rotacionY}deg)`;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (arrastrando) {
+        arrastrando = false;
+        pegatina.style.transition = 'transform 0.5s ease';
+        pegatina.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      }
+    });
+  </script>
+</body>
+</html>
